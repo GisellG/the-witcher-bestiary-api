@@ -1,0 +1,23 @@
+{
+  "name": "the-witcher-bestiary-api",
+  "version": "1.0.0",
+  "description": "This is a complete fan-made bestiary based on The Witcher 3 - Wild Hunt game and its expansions. A bestiary is usually a volume containing information on different creatures, either living or mythical, depending on the focus of the treatise. As you come across new creatures all of the information you know about them is entered into this API. This Information can be found out by simply finding and engaging the monster or by reading certain books. Be aware that all animals and beasts Geralt kills have an actual scent that attracts other monsters in the area.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "witcher",
+    "bestiary",
+    "fanmade",
+    "videogames"
+  ],
+  "author": "Gisell Gutierrez",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "cors": "^2.8.5",
+    "dotenv": "^14.3.2",
+    "express": "^4.17.2"
+  }
+}
