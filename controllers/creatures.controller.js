@@ -1,4 +1,6 @@
-const { response } = require('express');
+const { response, request } = require('express');
+const { validationResult } = require('express-validator');
+const Creature = require('../models/creature');
 
 const getCreatures = (req, res = response) => {
 
@@ -31,14 +33,32 @@ const getSingleCreature = (req, res = response) => {
     });
 };
 
-const postCreature = (req, res = response) => {
+const postCreature = async (req, res = response) => {
 
-    const body = req.body;
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).json(errors);
+    };
+
+    const { creature_name, category, shortDescription, longDescription } = req.body;
+    const creature = new Creature( { creature_name, category, shortDescription, longDescription } );
+
+    // Validating duplicate name
+    const existingCreature = await Creature.findOne({ creature_name });
+    if( existingCreature ){
+        return res.status(400).json({
+            msg: "This creature already exist!"
+        });
+    };
+
+    // Saving creature in DB
+    await creature.save();
 
     res.status(201).json({
         "ok": true,
         "msg": "PROVISIONAL ENDPOINT! creature created!",
-        "new_creature": body
+        "new_creature": creature
     });
 
     console.log("A new creature was added");
