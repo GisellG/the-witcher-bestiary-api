@@ -1,5 +1,4 @@
 const { response, request } = require('express');
-const { validationResult } = require('express-validator');
 const Creature = require('../models/creature');
 
 const getCreatures = (req, res = response) => {
@@ -34,12 +33,6 @@ const getSingleCreature = (req, res = response) => {
 };
 
 const postCreature = async (req, res = response) => {
-
-    const errors = validationResult(req);
-
-    if(!errors.isEmpty()){
-        return res.status(400).json(errors);
-    };
 
     const { creature_name, category, shortDescription, longDescription } = req.body;
     const creature = new Creature( { creature_name, category, shortDescription, longDescription } );

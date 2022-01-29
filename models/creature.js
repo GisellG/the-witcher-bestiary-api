@@ -1,25 +1,16 @@
 
-// {
-//     id: "",
-//     name: "",
-//     category: "",
-//     img: "",
-//     shortDescription: "",
-//     longDescription: "",
-//     weakness: ""
-// }
-
 const { Schema, model } = require('mongoose');
 
 const CreatureSchema = Schema({
     creature_name: {
         type: String,
-        required: [true, 'Name is mandatory'],
-        unique: true
+        required: [true, 'Creature name is mandatory'],
     },
     category: {
         type: String,
-        required: [true, 'Category is mandatory']
+        required: [true, 'Category is mandatory'],
+        lowercase: true,
+        enum: ['beast', 'cursed', 'draconid', 'elementa', 'hybrid', 'insectoid', 'necrophage', 'ogroid', 'relict', 'specter', 'vampire']
     },
     img: {
         type: String,
