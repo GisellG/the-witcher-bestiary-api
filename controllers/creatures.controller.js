@@ -1,22 +1,18 @@
 const { response, request } = require('express');
 const Creature = require('../models/creature');
+const Group = require('../models/group');
 
-const getCreatures = (req, res = response) => {
+const getCreatures = async (req, res = response) => {
 
     const { offset = 0, limit = 15 } = req.query;
+    const creatures = await Creature.find();
+    const groups = await Group.find();
 
     res.json({
         "count": 123,
         offset,
         limit,
-        "results": [
-            {
-                "creature": "creature found"
-            },
-            {
-                "creature": "creature found"
-            }
-        ]
+        "results": [creatures, groups]
     });
 };
 
@@ -34,8 +30,8 @@ const getSingleCreature = (req, res = response) => {
 
 const postCreature = async (req, res = response) => {
 
-    const { creature_name, category, shortDescription, longDescription } = req.body;
-    const creature = new Creature( { creature_name, category, shortDescription, longDescription } );
+    const { creature_name, group, shortDescription, longDescription } = req.body;
+    const creature = new Creature( { creature_name, group, shortDescription, longDescription } );
 
     // Validating duplicate name
     const existingCreature = await Creature.findOne({ creature_name });

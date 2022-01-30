@@ -6,9 +6,9 @@ const CreatureSchema = Schema({
         type: String,
         required: [true, 'Creature name is mandatory'],
     },
-    category: {
+    group: {
         type: String,
-        required: [true, 'Category is mandatory'],
+        required: [true, 'Group is mandatory'],
         lowercase: true,
         enum: ['beast', 'cursed', 'draconid', 'elementa', 'hybrid', 'insectoid', 'necrophage', 'ogroid', 'relict', 'specter', 'vampire']
     },
