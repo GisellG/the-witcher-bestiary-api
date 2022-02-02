@@ -27,7 +27,16 @@ const CreatureSchema = Schema({
     weakness: {
         type: String,
         required: false
+    },
+    haunted: {
+        type: Boolean,
+        required: true
     }
 });
+
+CreatureSchema.methods.toJSON = function() {
+    const { __v, ...creature } = this.toObject();
+    return creature;
+};
 
 module.exports = model( 'Creature', CreatureSchema );

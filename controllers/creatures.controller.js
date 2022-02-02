@@ -28,10 +28,29 @@ const getSingleCreature = (req, res = response) => {
     });
 };
 
+const putCreature = async (req, res = response) => {
+
+    const { id } = req.params;
+    const { haunted } = req.body;
+
+    //validate to DB
+    const creatureEdit = await Creature.findByIdAndUpdate( id, { "haunted" : haunted }, { new: true } );
+
+    console.log(haunted);
+    console.log(id)
+
+    res.json({
+        "results": {
+            "haunted?": haunted,
+            "creature": creatureEdit
+        },
+    });
+};
+
 const postCreature = async (req, res = response) => {
 
-    const { creature_name, group, shortDescription, longDescription } = req.body;
-    const creature = new Creature( { creature_name, group, shortDescription, longDescription } );
+    const { creature_name, group, shortDescription, longDescription, haunted } = req.body;
+    const creature = new Creature( { creature_name, group, shortDescription, longDescription, haunted } );
 
     // Validating duplicate name
     const existingCreature = await Creature.findOne({ creature_name });
@@ -56,5 +75,6 @@ const postCreature = async (req, res = response) => {
 module.exports = {
     getCreatures,
     getSingleCreature,
+    putCreature,
     postCreature,
 };
