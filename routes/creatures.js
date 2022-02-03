@@ -6,12 +6,17 @@ const { getCreatures,
         putCreature,
         getSingleCreature } = require('../controllers/creatures.controller');
 const { validateFields } = require('../middlewares/file-validator');
-const { validGroup } = require('../helpers/db-validator');
+const { validGroup, validId } = require('../helpers/db-validator');
 
 const router = Router();
 
 router.get('/', getCreatures);
-router.get('/:id', getSingleCreature);
+
+router.get('/:id', [
+    check('id', 'Is not a valid ID').isMongoId(),
+    check( 'id', 'Id not found' ).custom( validId ),
+    validateFields
+], getSingleCreature);
 
 // PROVISIONAL ENDPOINTS
 router.post('/add', [
@@ -22,6 +27,10 @@ router.post('/add', [
     validateFields
 ], postCreature);
 
-router.put('/:id', putCreature);
+router.put('/:id', [
+    check('id', 'Is not a valid ID').isMongoId(),
+    check( 'id', 'Id not found' ).custom( validId ),
+    validateFields
+] ,putCreature);
 
 module.exports = router;

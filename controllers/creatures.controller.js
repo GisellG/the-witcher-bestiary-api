@@ -5,25 +5,35 @@ const Group = require('../models/group');
 const getCreatures = async (req, res = response) => {
 
     const { offset = 0, limit = 15 } = req.query;
-    const creatures = await Creature.find();
-    const groups = await Group.find();
+
+    const [ count, creatures, groups ] = await Promise.all([
+        Creature.countDocuments(),
+        Creature.find()
+            .skip( Number(offset) )
+            .limit( Number(limit) ),
+        Group.find()
+    ])
 
     res.json({
-        "count": 123,
         offset,
         limit,
-        "results": [creatures, groups]
+        count,
+        creatures,
+        groups
     });
 };
 
-const getSingleCreature = (req, res = response) => {
+const getSingleCreature = async(req, res = response) => {
 
-    const id = req.params.id;
+    const { id } = req.params;
+
+    //validate to DB
+    const creatureById = await Creature.findById( id );
 
     res.json({
         "results": {
             "id": id,
-            "creature": "creature found"
+            "creature": creatureById
         },
     });
 };
@@ -35,9 +45,6 @@ const putCreature = async (req, res = response) => {
 
     //validate to DB
     const creatureEdit = await Creature.findByIdAndUpdate( id, { "haunted" : haunted }, { new: true } );
-
-    console.log(haunted);
-    console.log(id)
 
     res.json({
         "results": {

@@ -1,3 +1,4 @@
+const Creature = require('../models/creature');
 const Group = require('../models/group');
 
 const validGroup = async (name = '') => { 
@@ -9,7 +10,14 @@ const validGroup = async (name = '') => {
     };
 
 };
+const validId = async (id) => {
+    const idExist = await Creature.findById(id);
+    if( !idExist ){
+        throw new Error(`The id ${id} is not in this db`);
+    }
+};
 
 module.exports = {
-    validGroup
+    validGroup,
+    validId
 };
