@@ -32,8 +32,19 @@ const validId = async (id) => {
 
 };
 
+const validUser = async (id) => {
+
+    const idExist = await User.findById(id);
+
+    if( !idExist ){
+        throw new Error(`The id ${id} is not in this db`);
+    }
+
+};
+
 module.exports = {
     validGroup,
     validId,
+    validUser,
     validEmail
 };

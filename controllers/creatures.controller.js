@@ -44,7 +44,12 @@ const putCreature = async (req, res = response) => {
     const { haunted } = req.body;
 
     //validate to DB
-    const creatureEdit = await Creature.findByIdAndUpdate( id, { "haunted" : haunted }, { new: true } );
+    const creatureEdit = await Creature
+        .findByIdAndUpdate(
+            id,
+            { "haunted" : haunted },
+            { new: true }
+        );
 
     res.json({
         "results": {
