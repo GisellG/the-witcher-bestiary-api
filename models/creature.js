@@ -14,7 +14,7 @@ const CreatureSchema = Schema({
     },
     img: {
         type: String,
-        required: false
+        required: true
     },
     shortDescription: {
         type: String,

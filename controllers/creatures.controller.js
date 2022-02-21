@@ -61,8 +61,8 @@ const putCreature = async (req, res = response) => {
 
 const postCreature = async (req, res = response) => {
 
-    const { creature_name, group, shortDescription, longDescription, haunted } = req.body;
-    const creature = new Creature( { creature_name, group, shortDescription, longDescription, haunted } );
+    const { creature_name, group, shortDescription, longDescription, haunted, img } = req.body;
+    const creature = new Creature( { creature_name, group, shortDescription, longDescription, haunted, img } );
 
     // Validating duplicate name
     const existingCreature = await Creature.findOne({ creature_name });
@@ -77,11 +77,10 @@ const postCreature = async (req, res = response) => {
 
     res.status(201).json({
         "ok": true,
-        "msg": "PROVISIONAL ENDPOINT! creature created!",
-        "new_creature": creature
+        "msg": "Creature created!",
+        creature
     });
 
-    console.log("A new creature was added");
 };
 
 module.exports = {

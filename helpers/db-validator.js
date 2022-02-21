@@ -42,9 +42,19 @@ const validUser = async (id) => {
 
 };
 
+const validCollection = (collection = '', collections = '') => {
+    const collectionExist = collections.includes(collection);
+    if(!collectionExist){
+        throw new Error(`The collection ${collection} in not in the DB. Try with ${collections}`)
+    }
+
+    return true;
+}
+
 module.exports = {
     validGroup,
     validId,
     validUser,
-    validEmail
+    validEmail,
+    validCollection
 };
