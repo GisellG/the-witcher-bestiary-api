@@ -1,10 +1,13 @@
+const path = require('path');
+const fs = require('fs');
+
+const cloudinary = require('cloudinary').v2;
+cloudinary.config( process.env.CLOUDINARY_URL );
 
 const { response, request } = require('express');
 const { uploadImages } = require('../helpers/upload-file');
 const Creature = require('../models/creature');
 const User = require('../models/user');
-
-
 
 const uploadFiles = async(req, res = response) => {
 
@@ -19,7 +22,52 @@ const uploadFiles = async(req, res = response) => {
 
 };
 
-const updateFile = async(req, res = response) => {
+const renderImage = async (req, res = response) => {
+
+    const { id, collection } = req.params;
+
+    let model;
+
+    switch (collection) {
+
+        case 'users':
+            model = await User.findById(id);
+            if(!model){
+                return res.status(404).json({
+                    msg: `There's no user with the id ${id}`
+                });
+            }
+        break;
+
+        case 'creatures':
+            model = await Creature.findById(id);
+            if(!model){
+                return res.status(404).json({
+                    msg: `There's no creature with the id ${id}`
+                });
+            }
+        break;
+
+        default:
+            return res.status(500).json({
+                msg: 'Error trying to validate this collection'
+            });
+    };
+
+    // clean previous images
+    if (model.img){
+        // verifi if exist, although erase & replace
+        const pathImage = path.join( __dirname, '../uploads', collection, model.img );
+        if( fs.existsSync(pathImage)){
+            return res.sendFile( pathImage )
+        }
+    };
+
+    const pathImage = path.join( __dirname, '../assets/no-image.png');
+    res.sendFile(pathImage);
+};
+
+const updateFileCloudinary = async(req, res = response) => {
 
     const {collection, id} = req.params;
 
@@ -50,20 +98,29 @@ const updateFile = async(req, res = response) => {
                 msg: 'Error trying to validate this collection'
             });
     }
-    const fileName = await uploadImages( req.files, undefined, collection );
-    model.img = fileName;
+
+    // clean previous images
+    if (model.img){
+        // verifi if exist, although erase & replace
+        const nameArray = model.img.split('/');
+        const name = nameArray[ nameArray.length - 1 ];
+        const [ public_id ] = name.split('.');
+
+        cloudinary.uploader.destroy( public_id );
+    }
+
+    const { tempFilePath } = req.files.file;
+    const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
+
+    model.img = secure_url;
 
     await model.save();
 
-    res.json({
-        "msg": "Image updated succesfully",
-        model
-    });
-
-}
-
+    res.json ( model );
+};
 
 module.exports = {
     uploadFiles,
-    updateFile
+    renderImage,
+    updateFileCloudinary
 };
