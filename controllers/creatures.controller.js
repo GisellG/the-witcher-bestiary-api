@@ -1,29 +1,26 @@
 const { response, request } = require('express');
 const Creature = require('../models/creature');
-const Group = require('../models/group');
 
 const getCreatures = async (req, res = response) => {
 
     const { offset = 0, limit = 15 } = req.query;
 
-    const [ count, creatures, groups ] = await Promise.all([
+    const [ count, creatures ] = await Promise.all([
         Creature.countDocuments(),
         Creature.find()
             .skip( Number(offset) )
             .limit( Number(limit) ),
-        Group.find()
-    ])
+    ]);
 
     res.json({
         offset,
         limit,
         count,
         creatures,
-        groups
     });
 };
 
-const getSingleCreature = async(req, res = response) => {
+const getCreatureById = async(req, res = response) => {
 
     const { id } = req.params;
 
@@ -36,6 +33,19 @@ const getSingleCreature = async(req, res = response) => {
             "creature": creatureById
         },
     });
+};
+
+const getCreatureByName = async ( req, res = response) => {
+
+    const { creatureName } = req.params;
+    const findByName = await Creature.findOne( { creature_name: creatureName } );
+
+    res.json({
+        creatureName,
+        "msg": "ok",
+        findByName
+    });
+
 };
 
 const putCreature = async (req, res = response) => {
@@ -83,9 +93,22 @@ const postCreature = async (req, res = response) => {
 
 };
 
+const deleteCreature = async (req, res) => {
+
+    const { id } = req.params;
+    const creatureDelete = await Creature.findByIdAndDelete( id );
+
+    res.json({
+        "msg": "ok",
+        "creature deleted": creatureDelete
+    })
+};
+
 module.exports = {
     getCreatures,
-    getSingleCreature,
+    getCreatureById,
     putCreature,
     postCreature,
+    deleteCreature,
+    getCreatureByName
 };

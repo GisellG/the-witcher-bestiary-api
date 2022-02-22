@@ -4,7 +4,10 @@ const { check } = require('express-validator');
 const { getCreatures,
         postCreature,
         putCreature,
-        getSingleCreature } = require('../controllers/creatures.controller');
+        getCreatureById,
+        deleteCreature,
+        getCreatureByName
+} = require('../controllers/creatures.controller');
 const { validateFields } = require('../middlewares/file-validator');
 const { validGroup, validId } = require('../helpers/db-validator');
 
@@ -16,9 +19,17 @@ router.get('/:id', [
     check('id', 'Is not a valid ID').isMongoId(),
     check( 'id', 'Id not found' ).custom( validId ),
     validateFields
-], getSingleCreature);
+], getCreatureById);
+
+router.put('/:id', [
+    check('id', 'Is not a valid ID').isMongoId(),
+    check( 'id', 'Id not found' ).custom( validId ),
+    validateFields
+], putCreature);
 
 // PROVISIONAL ENDPOINTS
+router.get('/search/:creatureName', getCreatureByName);
+
 router.post('/add', [
     check('creature_name', 'Creatures name is Mandatory').not().isEmpty(),
     check('group', 'Group is Mandatory').custom( validGroup ),
@@ -28,10 +39,11 @@ router.post('/add', [
     validateFields
 ], postCreature);
 
-router.put('/:id', [
+router.delete('/:id', [
     check('id', 'Is not a valid ID').isMongoId(),
     check( 'id', 'Id not found' ).custom( validId ),
     validateFields
-] ,putCreature);
+], deleteCreature);
+
 
 module.exports = router;
