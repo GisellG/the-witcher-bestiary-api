@@ -25,11 +25,15 @@ const CreatureSchema = Schema({
         required: [true, 'A description is mandatory']
     },
     weakness: {
-        type: String,
-        required: false
+        type: Object,
+        required: true
     },
     haunted: {
         type: Boolean,
+        required: true
+    },
+    alt_name: {
+        type: String,
         required: true
     }
 });

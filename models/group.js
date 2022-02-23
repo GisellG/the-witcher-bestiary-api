@@ -9,10 +9,6 @@ const GroupSchema = Schema({
     description: {
         type: String,
         require: true
-    },
-    list: {
-        type: String,
-        require: false
     }
 });
 

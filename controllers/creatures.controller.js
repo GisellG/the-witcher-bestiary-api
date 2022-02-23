@@ -71,8 +71,8 @@ const putCreature = async (req, res = response) => {
 
 const postCreature = async (req, res = response) => {
 
-    const { creature_name, group, shortDescription, longDescription, haunted, img } = req.body;
-    const creature = new Creature( { creature_name, group, shortDescription, longDescription, haunted, img } );
+    const { creature_name, group, shortDescription, longDescription, haunted, img, weakness, alt_name } = req.body;
+    const creature = new Creature( { creature_name, group, shortDescription, longDescription, haunted, img, weakness, alt_name } );
 
     // Validating duplicate name
     const existingCreature = await Creature.findOne({ creature_name });

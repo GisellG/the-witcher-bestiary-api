@@ -11,9 +11,10 @@ class Server {
         this.port = process.env.PORT;
         this.allPath = '/api/';
         this.creaturesRoutePath = '/api/creatures';
-        this.usersRoutePath = '/api/users';
+        // this.usersRoutePath = '/api/users';
         this.uploadsRoutePath = '/api/uploads';
         this.typesRoutePath = '/api/types';
+        this.weaknessRoutePath = '/api/weakness';
 
         // Database connection
         this.connectingDB();
@@ -45,9 +46,10 @@ class Server {
     routes() {
         this.app.use( this.allPath, require('../routes/all') );
         this.app.use( this.creaturesRoutePath, require('../routes/creatures') );
-        this.app.use( this.usersRoutePath, require('../routes/users') );
+        // this.app.use( this.usersRoutePath, require('../routes/users') );
         this.app.use( this.uploadsRoutePath, require('../routes/uploads') );
         this.app.use( this.typesRoutePath, require('../routes/groups') );
+        this.app.use( this.weaknessRoutePath, require('../routes/weakness') );
     };
 
     listen(){

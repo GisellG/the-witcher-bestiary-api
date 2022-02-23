@@ -1,0 +1,17 @@
+{
+    "creature_name": "big bad wolf",
+    "alt_name": "big_bad_wolf",
+    "shortDescription": "The Big Bad Wolf is a large lupine humanoid who inhabits the illusory Land of a Thousand Fables, created by Artorius Vigo.",
+    "longDescription": "You ask why I have these big hands, my friend? Well, I'll tell you my secret: exercise.\n— Big Bad Wolf\nThe Big Bad Wolf who lived in the Land of a Thousand Fables was, like the other denizens of that strange sphere, created by Artorius Vigo based on a figure from folk tales. Once he served as a playmate to the duke's daughters, acting out scenes with a certain red-hooded girl and her grandmother, but as the fable land slowly degenerated, so did he.\nGeralt and Syanna met the Big Bad Wolf while he was nursing a nasty hangover and was not eager to cooperate. Yet since our heroes needed a bean which the wolf had, they forced him to act out his tale.\nThat tale ended as it always had: the Big Bad Wolf attacked the Hunter (played by Geralt), biting and clawing him fiercely while his own wounds healed almost instantaneously. Inevitably, however, the Big Bad Wolf was killed and his stomach cut open.\nThis time, out came not a grandma and her granddaughter, but a magic bean.",
+    "haunted": false,
+    "img": "img",
+    "group": "beast",
+    "weakness": {
+        "oils": "beast_oil",
+        "bombs": [
+            "devils_puffball"
+        ],
+        "signs": [],
+        "potions": []
+    }
+}
