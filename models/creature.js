@@ -23,11 +23,7 @@ const CreatureSchema = Schema({
         type: String,
         required: true,
     },
-    shortDescription: {
-        type: String,
-        required: true
-    },
-    longDescription: {
+    description: {
         type: String,
         required: true,
     },

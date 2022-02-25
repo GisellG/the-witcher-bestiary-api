@@ -34,8 +34,7 @@ router.post('/add', [
     check('creature_name', 'Creatures name is Mandatory').not().isEmpty(),
     check('group', 'Group is Mandatory').custom( validGroup ),
     check('img', 'Image is Mandatory').not().isEmpty(),
-    check('shortDescription', 'A description is Mandatory').not().isEmpty(),
-    check('longDescription', 'A description is Mandatory').not().isEmpty(),
+    check('description', 'A description is Mandatory').not().isEmpty(),
     validateFields
 ], postCreature);
 
