@@ -4,37 +4,50 @@ const { Schema, model } = require('mongoose');
 const CreatureSchema = Schema({
     creature_name: {
         type: String,
-        required: [true, 'Creature name is mandatory'],
+        required: true,
+        lowercase: true,
+    },
+    alt_name: {
+        type: String,
+        required: true,
+        lowercase: true,
+        required: false
     },
     group: {
         type: String,
-        required: [true, 'Group is mandatory'],
+        required: true,
         lowercase: true,
         enum: ['beast', 'cursed', 'draconid', 'elementa', 'hybrid', 'insectoid', 'necrophage', 'ogroid', 'relict', 'specter', 'vampire']
     },
     img: {
         type: String,
-        required: true
+        required: true,
     },
     shortDescription: {
         type: String,
-        required: [true, 'A description is mandatory']
+        required: true
     },
     longDescription: {
         type: String,
-        required: [true, 'A description is mandatory']
+        required: true,
+    },
+    oils: {
+        type: String,
+        required: true,
+        lowercase: true,
     },
     weakness: {
-        type: Object,
-        required: true
+        type: Array,
+        required: true,
     },
-    haunted: {
+    hunted: {
         type: Boolean,
-        required: true
+        required: true,
     },
-    alt_name: {
+    location: {
         type: String,
-        required: true
+        lowercase: true,
+        required: false
     }
 });
 

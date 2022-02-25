@@ -71,14 +71,19 @@ const putCreature = async (req, res = response) => {
 
 const postCreature = async (req, res = response) => {
 
-    const { creature_name, group, shortDescription, longDescription, haunted, img, weakness, alt_name } = req.body;
-    const creature = new Creature( { creature_name, group, shortDescription, longDescription, haunted, img, weakness, alt_name } );
+    const newCreature = req.body;
+    const creature = new Creature( newCreature );
 
     // Validating duplicate name
-    const existingCreature = await Creature.findOne({ creature_name });
-    if( existingCreature ){
+    const { creature_name, alt_name } = creature;
+    const existingCreatureByName = await Creature.findOne({ creature_name });
+    const existingCreatureByAltName = await Creature.findOne({ alt_name });
+    const namingValidation = existingCreatureByName || existingCreatureByAltName;
+
+    if( namingValidation ){
         return res.status(400).json({
-            msg: "This creature already exist!"
+            status: "HTTP ERROR 400 - BAD REQUEST",
+            msg: "Whoops, this creature is in the database already!"
         });
     };
 
@@ -86,8 +91,8 @@ const postCreature = async (req, res = response) => {
     await creature.save();
 
     res.status(201).json({
-        "ok": true,
-        "msg": "Creature created!",
+        status: "HTTP SUCCESS 201 - CREATED",
+        msg: `Horay! Creature ${alt_name} created!`,
         creature
     });
 
