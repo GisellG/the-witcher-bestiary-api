@@ -51,19 +51,19 @@ const getCreatureByName = async ( req, res = response) => {
 const putCreature = async (req, res = response) => {
 
     const { id } = req.params;
-    const { haunted } = req.body;
+    const { hunted, location } = req.body;
 
     //validate to DB
     const creatureEdit = await Creature
         .findByIdAndUpdate(
             id,
-            { "haunted" : haunted },
+            { "hunted" : hunted, "location": location },
             { new: true }
         );
 
     res.json({
+        "msg": "Creature modified succesfuly",
         "results": {
-            "haunted?": haunted,
             "creature": creatureEdit
         },
     });
