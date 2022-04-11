@@ -1,7 +1,4 @@
 
 node_modules/
 .env
-data.js
-data_edit.json
-images/
-uploads/
+.vscode/

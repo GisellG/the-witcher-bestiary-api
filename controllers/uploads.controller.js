@@ -109,7 +109,7 @@ const updateFileCloudinary = async(req, res = response) => {
 
     // clean previous images
     if (model.img){
-        // verifi if exist, although erase & replace
+        // verify if exist, although erase & replace
         const nameArray = model.img.split('/');
         const name = nameArray[ nameArray.length - 1 ];
         const [ public_id ] = name.split('.');

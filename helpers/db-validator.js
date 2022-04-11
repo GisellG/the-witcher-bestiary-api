@@ -32,6 +32,17 @@ const validId = async (id) => {
 
 };
 
+const validImputName = async (name) => {
+
+    const nameExist = await Creature.findOne({creature_name: name});
+    const altNameExist = await Creature.findOne({alt_name: name});
+
+    if( !nameExist && !altNameExist){
+        throw new Error(`The creature named ${name} is not in this db`);
+    }
+
+};
+
 const validUser = async (id) => {
 
     const idExist = await User.findById(id);
@@ -54,6 +65,7 @@ const validCollection = (collection = '', collections = '') => {
 module.exports = {
     validGroup,
     validId,
+    validImputName,
     validUser,
     validEmail,
     validCollection

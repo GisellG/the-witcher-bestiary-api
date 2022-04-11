@@ -1,9 +1,18 @@
 const { response, request } = require('express');
+
 const Creature = require('../models/creature');
 const Group = require('../models/group');
 const Weakness = require('../models/issue');
 
-const getAllRecords = async (req, res) => {
+/**
+ * * getAllRecords
+ * Is a promise that brings all the results from Creatures, Group and Weakness models.
+ * 
+ * @param res returns the response of the .find() method.
+ * 
+ * @returns Object with the results of the models.
+ */
+const getAllRecords = async (req = request, res = response) => {
 
     const [ creatures, groups, weakness ] = await Promise.all([
         Creature.find(),
@@ -12,9 +21,9 @@ const getAllRecords = async (req, res) => {
     ]);
 
     res.json({
-        creatures,
+        'creatures': creatures,
         'types': groups,
-        weakness
+        'weakness': weakness
     });
 
 };
