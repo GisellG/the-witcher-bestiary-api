@@ -1,8 +1,9 @@
 const { response, request } = require('express');
 
 const Creature = require('../models/creature');
-const Group = require('../models/group');
+const Group    = require('../models/group');
 const Weakness = require('../models/issue');
+const Location = require('../models/location');
 
 /**
  * * getAllRecords
@@ -14,16 +15,18 @@ const Weakness = require('../models/issue');
  */
 const getAllRecords = async (req = request, res = response) => {
 
-    const [ creatures, groups, weakness ] = await Promise.all([
+    const [ creatures, groups, weakness, locations ] = await Promise.all([
         Creature.find(),
         Group.find(),
-        Weakness.find()
+        Weakness.find(),
+        Location.find()
     ]);
 
     res.json({
         'creatures': creatures,
-        'types': groups,
-        'weakness': weakness
+        'types'    : groups,
+        'weakness' : weakness,
+        'locations': locations
     });
 
 };

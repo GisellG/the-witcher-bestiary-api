@@ -7,7 +7,6 @@ cloudinary.config( process.env.CLOUDINARY_URL );
 const { response, request } = require('express');
 const { uploadImages } = require('../helpers/upload-file');
 const Creature = require('../models/creature');
-const User = require('../models/user');
 const Issue = require('../models/issue');
 
 const uploadFiles = async(req, res = response) => {
@@ -28,15 +27,6 @@ const renderImage = async (req, res = response) => {
     const { id, collection } = req.params;
 
     switch (collection) {
-
-        case 'users':
-            model = await User.findById(id);
-            if(!model){
-                return res.status(404).json({
-                    msg: `There's no user with the id ${id}`
-                });
-            }
-        break;
 
         case 'creatures':
             model = await Creature.findById(id);
@@ -73,15 +63,6 @@ const updateFileCloudinary = async(req, res = response) => {
     let model;
 
     switch (collection) {
-
-        case 'users':
-            model = await User.findById(id);
-            if(!model){
-                return res.status(404).json({
-                    msg: `There's no user with the id ${id}`
-                });
-            }
-        break;
 
         case 'creatures':
             model = await Creature.findById(id);

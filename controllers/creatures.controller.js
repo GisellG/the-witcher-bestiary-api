@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 
 const Creature = require('../models/creature');
+const Location = require('../models/location');
 
 /**
  * * getCreatures
@@ -101,12 +102,36 @@ const getCreatureByName = async (req = request, res = response) => {
 
 };
 
-const putCreature = async (req, res = response) => {
+/**
+ * * putCreature
+ * Modifies the creature by id changing its hunted state and location.
+ * 
+ * @param req uses id query param to specify the search and the hunted/location from body to edit the information.
+ * @param res returns the results of the search.
+ * 
+ * @returns Object with
+ *  @param creatureEdit (obj) with the edited info.
+ */
+const putCreature = async (req = request, res = response) => {
 
     const { id } = req.params;
     const { hunted, location } = req.body;
 
-    //validate to DB
+    // Validate location in DB
+    const locationNameValidation = await Location
+        .findOne({ name: location });
+
+    if(!locationNameValidation){
+        const addNewLocation = 
+            new Location({
+                name       : location,
+                emblem     : "",
+                description: ""
+            });
+        // Saving creature in DB
+        await addNewLocation.save();
+    };
+
     const creatureEdit = await Creature
         .findByIdAndUpdate(
             id,
@@ -122,6 +147,10 @@ const putCreature = async (req, res = response) => {
         },
     });
 };
+
+/** 
+ * !Provisional methods 
+**/
 
 const postCreature = async (req, res = response) => {
 
@@ -166,8 +195,8 @@ const deleteCreature = async (req, res) => {
 module.exports = {
     getCreatures,
     getCreatureById,
+    getCreatureByName,
     putCreature,
     postCreature,
-    deleteCreature,
-    getCreatureByName
+    deleteCreature
 };
