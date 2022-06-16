@@ -1,0 +1,7 @@
+PORT=8080
+
+MONGODB_CNN=mongodb+srv://gissg:Maxito1010@thewitcherbestiary.wxvo0.mongodb.net/witcherBestiary
+
+CLOUDINARY_URL=cloudinary://442974724313377:9aeR4yiR9l9xdb6fkOFjlREvZjw@gissgthewitcher
+
+STEAM_API_KEY: 343A37DA277B5CFDC9A0CB5A64D640D8
